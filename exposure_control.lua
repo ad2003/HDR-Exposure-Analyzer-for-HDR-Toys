@@ -1,19 +1,20 @@
 -- exposure_control.lua
--- Live-Regler fuer Astras Auto-Exposure, ohne andere Conf-Opts anzufassen
--- (get -> modify -> set statt komplettem Ersetzen der Options-Liste).
+-- Live controls for astra's auto exposure without touching any other
+-- shader opts from your config (get -> modify -> set instead of
+-- replacing the whole options list).
 --
---   Ctrl+Shift+4/5  auto_exposure_limit_postive runter/hoch (Schritt 0.1)
---   Ctrl+Shift+6    Limit-Override entfernen (Conf/Default gilt wieder)
---   Ctrl+Shift+7/8  auto_exposure_anchor runter/hoch (Schritt 0.005)
---   Ctrl+Shift+9    Anchor-Override entfernen (Conf/Default gilt wieder)
+--   Ctrl+Shift+4/5  auto_exposure_limit_postive down/up (step 0.1)
+--   Ctrl+Shift+6    remove limit override (config/default applies again)
+--   Ctrl+Shift+7/8  auto_exposure_anchor down/up (step 0.005)
+--   Ctrl+Shift+9    remove anchor override (config/default applies again)
 --
--- Hinweis Mechanik: Das Limit kappt, wie viele Blendenstufen die
--- Automatik Richtung Anchor aufhellen darf. Shader-Default ist 0.0
--- (kein Aufhellen). Fuer dunkle Master: Limit hochdrehen; die
--- Automatik nutzt nur so viel davon, wie das Material braucht.
+-- How it works: the limit caps how many stops (EV) the auto exposure
+-- is allowed to brighten toward the anchor. Shader default is 0.0
+-- (no brightening). For dark masters: raise the limit; the automatic
+-- only uses as much of it as the material actually needs.
 
-local ANCHOR_DEFAULT = 0.6   -- Astra-Default
-local LIMIT_DEFAULT  = 0.0   -- Astra-Default
+local ANCHOR_DEFAULT = 0.6   -- Astra-default
+local LIMIT_DEFAULT  = 0.0   -- Astra-default
 local ANCHOR_STEP    = 0.005
 local LIMIT_STEP     = 0.1
 
@@ -40,7 +41,7 @@ local function osd(key, value)
     end
 end
 
--- ---- Limit (der Alltagsregler fuer dunkle Master) ----
+-- ---- Limit (the everyday knob for dark masters) ----
 
 local function limit_change(delta)
     local v = current("auto_exposure_limit_postive", LIMIT_DEFAULT) + delta
@@ -56,7 +57,7 @@ mp.add_key_binding("ctrl+shift+6", "limit_reset", function()
     osd("limit_postive", nil)
 end)
 
--- ---- Anchor (Feinjustage des Zielwerts) ----
+-- ---- Anchor (fine-tuning the target value) ----
 
 local function anchor_change(delta)
     local v = current("auto_exposure_anchor", ANCHOR_DEFAULT) + delta
