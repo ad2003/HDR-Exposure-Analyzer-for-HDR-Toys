@@ -7,6 +7,7 @@
 --   Ctrl+Shift+6    remove limit override (config/default applies again)
 --   Ctrl+Shift+7/8  auto_exposure_anchor down/up (step 0.005)
 --   Ctrl+Shift+9    remove anchor override (config/default applies again)
+--   (Try it without Shift if it doesn't work on your setup)
 --
 -- How it works: the limit caps how many stops (EV) the auto exposure
 -- is allowed to brighten toward the anchor. Shader default is 0.0
